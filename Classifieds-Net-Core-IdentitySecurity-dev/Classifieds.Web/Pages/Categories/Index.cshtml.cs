@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace Classifieds.Web.Pages.Categories
 {
-    [Authorize(Roles = Roles.Administrator)]
     public class IndexModel : PageModel
     {
         private readonly Classifieds.Data.ApplicationDbContext _context;

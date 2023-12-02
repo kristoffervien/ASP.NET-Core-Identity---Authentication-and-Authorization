@@ -33,40 +33,6 @@ namespace Classifieds.Web
                 options.UseSqlServer(Configuration.GetConnectionString("DatabaseConnection"))
             );
 
-            services.AddTransient<IEmailSender>(s => new EmailSender("localhost", 25, "no-reply@classified.com"));
-
-            services.AddDefaultIdentity<User>(options =>
-            {
-                options.Password.RequireDigit = true;
-                options.Password.RequiredLength = 8;
-                options.Password.RequireUppercase = true;
-                options.Password.RequireNonAlphanumeric = true;
-                options.SignIn.RequireConfirmedAccount = true;
-
-                options.Lockout.AllowedForNewUsers = true;
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-                options.Lockout.MaxFailedAccessAttempts = 3;
-            })
-                .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddPasswordValidator<PasswordValidatorService>()
-                .AddClaimsPrincipalFactory<CustomClaimsService>();
-
-            services.AddAuthentication()
-                .AddGoogle(googleOptions => {
-                    googleOptions.ClientId = Configuration["Google:ClientId"];
-                    googleOptions.ClientSecret = Configuration["Google:ClientSecret"];
-                });
-              
-
-            services.AddAuthorization(options =>
-            {
-                options.FallbackPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
-
-                options.AddPolicy(Policies.IsMinimumAge, policy =>
-                    policy.RequireClaim(UserClaims.isMinimumAge, "true"));
-            });
-
             services.AddRazorPages();
         }
 
@@ -88,9 +54,6 @@ namespace Classifieds.Web
             app.UseStaticFiles();
 
             app.UseRouting();
-
-            app.UseAuthentication();
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

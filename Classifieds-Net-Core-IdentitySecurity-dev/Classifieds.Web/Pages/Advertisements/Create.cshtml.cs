@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace Classifieds.Web.Pages.Advertisements
 {
-    [Authorize(Policy = Policies.IsMinimumAge)]
     public class CreateModel : PageModel
     {
         private readonly Classifieds.Data.ApplicationDbContext _context;
